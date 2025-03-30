@@ -1,96 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Countdown to Thailand 🇹🇭</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thailand Countdown</title>
   <style>
-    /* Base styles for a playful Thailand vacation vibe */
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      color: #fff;
+      background: linear-gradient(to top right, #ffeaa7, #81ecec);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #2d3436;
       text-align: center;
-      background: url('https://source.unsplash.com/1600x900/?thailand,beach') no-repeat center center fixed;
-      background-size: cover;
-      position: relative;
-    }
-    /* Dark overlay for readability */
-    body::before {
-      content: "";
-      background: rgba(0, 0, 0, 0.5);
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 0;
-    }
-    .container {
-      position: relative;
-      z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding: 20px;
+      height: 100vh;
     }
     h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px #000;
+      font-size: 2.5rem;
+      margin-bottom: 0.5em;
     }
-    .countdown {
-      font-size: 2em;
-      margin-bottom: 10px;
-      background-color: rgba(255, 255, 255, 0.2);
-      padding: 15px 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    .emoji {
+      font-size: 2rem;
     }
-    p {
-      font-size: 1.2em;
-      text-shadow: 1px 1px 2px #000;
+    #countdown {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-top: 0.5em;
+      background-color: rgba(255, 255, 255, 0.3);
+      padding: 0.5em 1em;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 1rem;
+      opacity: 0.6;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Countdown to Thailand 🇹🇭</h1>
-    <div class="countdown" id="countdown"></div>
-    <p>Can't wait to be in Thailand! 🌴😎</p>
-  </div>
+  <h1>
+    🌴 Countdown to Thailand 🏖️<br />
+    <span class="emoji">😎✈️🌅🍹</span>
+  </h1>
+  <p>Can't wait to finally arrive in Thailand on <strong>May 4th, 2025 at 09:30 (Bangkok Time)</strong>!</p>
+  <div id="countdown"></div>
+
+  <footer>
+    Made with ❤️ in anticipation of a tropical adventure 🇹🇭
+  </footer>
 
   <script>
-    // Set target date: 04.05.2025 09:30 (Bangkok, UTC+7)
-    var countDownDate = new Date("2025-05-04T09:30:00+07:00").getTime();
+    const targetDate = new Date("2025-05-04T09:30:00+07:00").getTime();
 
-    // Update the countdown every second
-    var x = setInterval(function() {
-      var now = new Date().getTime();
-      var distance = countDownDate - now;
+    const countdown = document.getElementById("countdown");
 
-      // Calculate the remaining time
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
 
-      // Display the countdown with playful emojis
-      document.getElementById("countdown").innerHTML =
-        days + " days 🌞, " +
-        hours + " hours ⏰, " +
-        minutes + " minutes 🕒, " +
-        seconds + " seconds ⏳";
-
-      // When the countdown is finished
-      if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("countdown").innerHTML = "I'm in Thailand! 🎉🏖️";
+      if (distance <= 0) {
+        countdown.innerHTML = "🎉 You're in Thailand now! Enjoy! 🎉";
+        return;
       }
-    }, 1000);
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
