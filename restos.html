@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Koh Samui Restaurants</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to top right, #ffeaa7, #81ecec);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #2d3436;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2em;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5em;
+    }
+    .emoji {
+      font-size: 2rem;
+    }
+    table {
+      margin-top: 2em;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 1400px;
+      background-color: rgba(255,255,255,0.95);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #dfe6e9;
+      text-align: left;
+    }
+    th {
+      background-color: #00cec9;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    tr:nth-child(even) {
+      background-color: #f1f2f6;
+    }
+    a {
+      color: #0984e3;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+<style>
+  #map {
+    width: 100%;
+    max-width: 1200px;
+    height: 500px;
+    margin-top: 2em;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+  .filters {
+    margin-top: 2em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: center;
+  }
+  .filters label {
+    font-weight: bold;
+    margin-right: 0.5em;
+  }
+</style>
+</head>
+<body>
+  <h1>
+    🥢 The Best Restaurants on Koh Samui 🍽️<br />
+    <span class="emoji">🇹🇭🌴🍜🍷</span>
+  </h1>
+  <p>Within ~1 hour of “Magic Suites – Samui Luxury Private Pool Villas”</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Cuisine</th>
+        <th>Price</th>
+        <th>Distance</th>
+        <th>Drive</th>
+        <th>Address</th>
+        <th>Google Maps</th>
+        <th>Hours</th>
+        <th>Closed</th>
+        <th>Ambience</th>
+        <th>Highlights</th>
+        <th>Veg/Vegan</th>
+        <th>Top Dishes</th>
+        <th>Rating</th>
+        <th>Review Links</th>
+        <th>Reservation</th>
+        <th>Delivery/Takeaway</th>
+        <th>Payment</th>
+        <th>English Spoken</th>
+        <th>Parking</th>
+        <th>WiFi</th>
+        <th>Toilets</th>
+        <th>Website/Instagram</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Dining on the Rocks</td>
+        <td>Thai & international gourmet fusion</td>
+        <td>€€€</td>
+        <td>~9 km</td>
+        <td>~20 Min.</td>
+        <td>Six Senses Samui, Bophut 84320</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=Dining+on+the+Rocks+Six+Senses+Samui" target="_blank">Google Maps</a></td>
+        <td>Daily 18:00–22:30</td>
+        <td>None</td>
+        <td>Cliffside terraces with 270° sea view, open-air, romantic</td>
+        <td>Fine Dining under stars, Slow Food concept</td>
+        <td>Vegetarian on request</td>
+        <td>Rock Lobster in Thai red curry with basil</td>
+        <td>~4.1/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g1179396-d1135501-Reviews-Dining_on_the_Rocks-Bophut_Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a></td>
+        <td>Yes (strongly recommended)</td>
+        <td>No</td>
+        <td>Visa, Mastercard, Amex</td>
+        <td>Yes (excellent)</td>
+        <td>Yes (Resort)</td>
+        <td>Yes</td>
+        <td>👍 Luxury</td>
+        <td><a href="https://www.sixsenses.com/en/hotels-resorts/asia-the-pacific/thailand/samui/dining#DiningOnTheRocks" target="_blank">Website</a></td>
+      </tr>
+      <tr>
+        <td>Tree Tops Sky Dining</td>
+        <td>European & Asian Haute Cuisine</td>
+        <td>€€€</td>
+        <td>~5 km</td>
+        <td>~15 Min.</td>
+        <td>Anantara Lawana, Chaweng, Bophut 84320</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=Tree+Tops+Sky+Dining+Koh+Samui" target="_blank">Google Maps</a></td>
+        <td>Daily 18:00–22:30 (Dinner only)</td>
+        <td>None</td>
+        <td>Private treehouse salas with sea view, very intimate</td>
+        <td>Romantic candlelit dining, sommelier service</td>
+        <td>Dedicated vegetarian menu</td>
+        <td>8-course Symphony of Sea & Land tasting menu</td>
+        <td>~4.4/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g1179396-d2016636-Reviews-Tree_Tops_Signature_Dining-Bophut_Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a></td>
+        <td>Yes (mandatory with deposit)</td>
+        <td>No</td>
+        <td>Credit Cards</td>
+        <td>Yes (excellent)</td>
+        <td>Yes (Hotel)</td>
+        <td>Yes</td>
+        <td>👍 Clean</td>
+        <td><a href="https://treetopsrestaurantsamui.com" target="_blank">Website</a> / <a href="https://www.instagram.com/treetopssamui" target="_blank">Instagram</a></td>
+      </tr>
+      <tr>
+        <td>Jungle Club</td>
+        <td>Thai & Western</td>
+        <td>€€</td>
+        <td>~12 km</td>
+        <td>~30 Min.</td>
+        <td>44/11 Soi Panyadee, Chaweng Noi, Koh Samui</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=Jungle+Club+Koh+Samui" target="_blank">Google Maps</a></td>
+        <td>Daily 08:00–23:00</td>
+        <td>None</td>
+        <td>Jungle hillside terrace with panoramic sea view</td>
+        <td>Relaxed vibe, lounge seating, jeep shuttle</td>
+        <td>Some dishes</td>
+        <td>Thai curries, western brunch, sunset cocktails</td>
+        <td>~4.1/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g676072-d1769988-Reviews-The_Jungle_Club_Restaurant-Chaweng_Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a></td>
+        <td>Recommended</td>
+        <td>No</td>
+        <td>Cash & Card</td>
+        <td>Yes</td>
+        <td>Limited (steep; shuttle available)</td>
+        <td>Yes</td>
+        <td>OK</td>
+        <td><a href="https://jungleclubsamui.com" target="_blank">Website</a> / <a href="https://www.instagram.com/jungleclubsamui" target="_blank">Instagram</a></td>
+      </tr>
+      <tr>
+        <td>CoCo Tam’s (X Peppina)</td>
+        <td>Italian (Pizza & Pasta) + Thai/Bar</td>
+        <td>€€</td>
+        <td>~5 km</td>
+        <td>~10 Min.</td>
+        <td>Fisherman’s Village, Bophut Beach, Koh Samui</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=Coco+Tam%27s+Koh+Samui" target="_blank">Google Maps</a></td>
+        <td>Restaurant 13:00–24:00, Bar 15:00–24:00</td>
+        <td>None</td>
+        <td>Beachfront restaurant with rustic wooden decor and chill bar area</td>
+        <td>Nightly fire shows, DJ music, vibrant crowd</td>
+        <td>Some veg options</td>
+        <td>Wood-fired pizza, fresh pasta, cocktails on the beach</td>
+        <td>~4.5/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g1179396-d11932820-Reviews-Coco_Tam_s_Restaurant-Bophut_Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a> / <a href="https://www.instagram.com/cocotams" target="_blank">Instagram</a></td>
+        <td>No (walk-in)</td>
+        <td>No</td>
+        <td>Bar & Card</td>
+        <td>Yes (tourist-friendly)</td>
+        <td>Limited (public village parking)</td>
+        <td>Unknown</td>
+        <td>OK</td>
+        <td><a href="https://www.facebook.com/cocotamsbar" target="_blank">Facebook</a> / <a href="https://www.instagram.com/cocotams" target="_blank">Instagram</a></td>
+      </tr>
+      <tr>
+        <td>Zazen Restaurant</td>
+        <td>Thai & International Fine Dining</td>
+        <td>€€€</td>
+        <td>~6 km</td>
+        <td>~15 Min.</td>
+        <td>Zazen Resort, 177 Moo 1, Bophut Beach, Koh Samui</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=Zazen+Restaurant+Koh+Samui" target="_blank">Google Maps</a></td>
+        <td>Daily 12:00–21:00</td>
+        <td>None</td>
+        <td>Elegant open-air Thai-style venue at quiet Bophut beach</td>
+        <td>Candlelight dining, tropical garden, romantic setting</td>
+        <td>Yes (vegetarian & vegan options)</td>
+        <td>Seafood & Thai tasting menu, flambé dessert</td>
+        <td>~4.5/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g1179396-d943174-Reviews-The_Club_by_Zazen-Bophut_Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a> / <a href="https://www.facebook.com/samuizazen" target="_blank">Facebook</a></td>
+        <td>Recommended for beachfront tables</td>
+        <td>No</td>
+        <td>Card & Cash</td>
+        <td>Yes (well-trained staff)</td>
+        <td>Yes (resort)</td>
+        <td>Yes</td>
+        <td>👍 Clean</td>
+        <td><a href="https://samuizazen.com" target="_blank">Website</a> / <a href="https://www.instagram.com/zazensamui" target="_blank">Instagram</a></td>
+      </tr>
+      <tr>
+        <td>Supattra Thai Dining</td>
+        <td>Upscale Thai (Seafood)</td>
+        <td>€€</td>
+        <td>~4 km</td>
+        <td>~10 Min.</td>
+        <td>32/6 Moo 4, Sanam Bin Rd (Bangrak), Bophut</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=Supattra+Thai+Dining+Koh+Samui" target="_blank">Google Maps</a></td>
+        <td>Tue–Sat 18:00–22:00</td>
+        <td>Sun & Mon</td>
+        <td>Cozy garden setting, family-style atmosphere</td>
+        <td>Owner-run, daily seafood specials, wine pairings</td>
+        <td>Vegetarian friendly</td>
+        <td>Crab curry, Penang fish curry</td>
+        <td>~4.9/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g293918-d7282111-Reviews-Supattra_Thai_Dining-Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a> / <a href="https://www.facebook.com/SupattraThaiDining" target="_blank">Facebook</a></td>
+        <td>Yes (few tables, book early)</td>
+        <td>No</td>
+        <td>Card & Cash</td>
+        <td>Yes (Thai/English/German)</td>
+        <td>Limited</td>
+        <td>Unknown</td>
+        <td>OK</td>
+        <td><a href="https://www.instagram.com/supattrathaidining" target="_blank">Instagram</a></td>
+      </tr>
+      <tr>
+        <td>Pak Tai (Ritz-Carlton)</td>
+        <td>Southern Thai Gourmet</td>
+        <td>€€€</td>
+        <td>~8 km</td>
+        <td>~15 Min.</td>
+        <td>The Ritz-Carlton, Choeng Mon, Koh Samui</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=Pak+Tai+Ritz+Carlton+Samui" target="_blank">Google Maps</a></td>
+        <td>Daily 18:00–21:30</td>
+        <td>None</td>
+        <td>Private Thai pavilions, elegant open-air dining</td>
+        <td>Authentic southern Thai dishes, 5★ service</td>
+        <td>Partial (seafood-focused)</td>
+        <td>Southern Thai tasting menu, Gaeng Som with fish</td>
+        <td>~5.0/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g1179396-d14001911-Reviews-Pak_Tai-Bophut_Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a></td>
+        <td>Recommended</td>
+        <td>No</td>
+        <td>Credit Card</td>
+        <td>Yes</td>
+        <td>Yes (Valet)</td>
+        <td>Yes</td>
+        <td>👍 Top</td>
+        <td><a href="https://www.ritzcarlton.com/en/hotels/koh-samui/dining#PAK%20TAI" target="_blank">Website</a></td>
+      </tr>
+      <tr>
+        <td>The View Dining (Ritz)</td>
+        <td>Mediterranean & International</td>
+        <td>€€€</td>
+        <td>~8 km</td>
+        <td>~15 Min.</td>
+        <td>The Ritz-Carlton, Choeng Mon, Koh Samui</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=The+View+Dining+Ritz+Carlton+Samui" target="_blank">Google Maps</a></td>
+        <td>Mo–Tue & Fri–Sun 18:00–22:00</td>
+        <td>Wed & Thu</td>
+        <td>Cliffside dining with panoramic ocean views</td>
+        <td>Luxury dinner, sunset views, buggy shuttle</td>
+        <td>Yes (some options)</td>
+        <td>Luxury 9-course menu, grilled lamb, fresh fish</td>
+        <td>~4.8/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g293918-d24022892-Reviews-The_View_Dining-Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a></td>
+        <td>Yes (for sunset view)</td>
+        <td>No</td>
+        <td>Credit Card</td>
+        <td>Yes</td>
+        <td>Yes (Valet)</td>
+        <td>Yes</td>
+        <td>👍 Top</td>
+        <td><a href="https://www.ritzcarlton.com/en/hotels/koh-samui/dining#The%20View%20Dining" target="_blank">Website</a></td>
+      </tr>
+      <tr>
+        <td>Namu (W Koh Samui)</td>
+        <td>Modern Japanese Fusion</td>
+        <td>€€€</td>
+        <td>~10 km</td>
+        <td>~20 Min.</td>
+        <td>W Koh Samui, Maenam, Koh Samui</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=Namu+W+Koh+Samui" target="_blank">Google Maps</a></td>
+        <td>Daily 17:30–22:30</td>
+        <td>None</td>
+        <td>Stylish beachfront venue, open kitchen</td>
+        <td>Top sushi, sashimi & wagyu; Omakase menus</td>
+        <td>Some vegetarian rolls</td>
+        <td>Sashimi platter, wagyu tataki, sushi Omakase</td>
+        <td>~4.5/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g293918-d2087971-Reviews-Namu-Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a> / <a href="https://www.instagram.com/namu.wkohsamui" target="_blank">Instagram</a></td>
+        <td>Recommended</td>
+        <td>No</td>
+        <td>Credit Card</td>
+        <td>Yes</td>
+        <td>Yes (Hotel)</td>
+        <td>Yes</td>
+        <td>👍 Clean</td>
+        <td><a href="https://www.marriott.com/en-us/hotels/usmwh-w-koh-samui/dining/#namu" target="_blank">Website</a></td>
+      </tr>
+      <tr>
+        <td>Saffron (Banyan Tree)</td>
+        <td>Modern Thai Fine Dining</td>
+        <td>€€€</td>
+        <td>~18 km</td>
+        <td>~35 Min.</td>
+        <td>Banyan Tree Samui, Lamai, Koh Samui</td>
+        <td><a href="https://www.google.com/maps/search/?api=1&query=Saffron+Banyan+Tree+Samui" target="_blank">Google Maps</a></td>
+        <td>Daily 18:00–23:00</td>
+        <td>None</td>
+        <td>Hillside terrace with bay views, romantic setting</td>
+        <td>Michelin Guide 2024 mention, top Thai cuisine</td>
+        <td>Partial (some veg. dishes)</td>
+        <td>Duck red curry, softshell crab salad</td>
+        <td>~4.7/5 ⭐</td>
+        <td><a href="https://www.tripadvisor.com/Restaurant_Review-g2314594-d2557987-Reviews-Saffron_at_Banyan_Tree_Samui-Maret_Ko_Samui_Surat_Thani_Province.html" target="_blank">TripAdvisor</a></td>
+        <td>Yes (fine dining)</td>
+        <td>No</td>
+        <td>Credit Card</td>
+        <td>Yes</td>
+        <td>Yes (Resort)</td>
+        <td>Yes</td>
+        <td>👍 Top</td>
+        <td><a href="https://www.banyantree.com/thailand/samui/dining/saffron" target="_blank">Website</a></td>
+      </tr>
+      <!-- Weitere Restaurants können hier im gleichen Stil ergänzt werden -->
+    </tbody>
+  </table>
+<div class="filters">
+  <div>
+    <label for="filterCuisine">Cuisine:</label>
+    <select id="filterCuisine" onchange="filterTable()">
+      <option value="">All</option>
+      <option value="Thai">Thai</option>
+      <option value="Japanese">Japanese</option>
+      <option value="Italian">Italian</option>
+      <option value="Fusion">Fusion</option>
+    </select>
+  </div>
+  <div>
+    <label for="filterPrice">Price:</label>
+    <select id="filterPrice" onchange="filterTable()">
+      <option value="">All</option>
+      <option value="€">€</option>
+      <option value="€€">€€</option>
+      <option value="€€€">€€€</option>
+    </select>
+  </div>
+</div>
+
+<div id="map"></div>
+
+<script>
+  function filterTable() {
+    const cuisine = document.getElementById('filterCuisine').value.toLowerCase();
+    const price = document.getElementById('filterPrice').value;
+    const rows = document.querySelectorAll('table tbody tr');
+    rows.forEach(row => {
+      const cuisineText = row.cells[1].textContent.toLowerCase();
+      const priceText = row.cells[2].textContent;
+      const matchesCuisine = !cuisine || cuisineText.includes(cuisine);
+      const matchesPrice = !price || priceText.includes(price);
+      row.style.display = matchesCuisine && matchesPrice ? '' : 'none';
+    });
+  }
+
+  const map = L.map('map').setView([9.55, 100.0], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const markers = [
+    { name: "Dining on the Rocks", coords: [9.582397, 100.065409] },
+    { name: "Tree Tops Sky Dining", coords: [9.534991, 100.061517] },
+    { name: "Jungle Club", coords: [9.507595, 100.047160] },
+    { name: "CoCo Tam’s", coords: [9.558253, 100.030363] },
+    { name: "Zazen Restaurant", coords: [9.560526, 100.026700] },
+    { name: "Supattra Thai Dining", coords: [9.561991, 100.061616] },
+    { name: "Pak Tai", coords: [9.567383, 100.081539] },
+    { name: "The View Dining", coords: [9.567800, 100.081900] },
+    { name: "Namu", coords: [9.574931, 100.019028] },
+    { name: "Saffron", coords: [9.467364, 100.062888] },
+  ];
+
+  markers.forEach(marker => {
+    L.marker(marker.coords).addTo(map).bindPopup(`<b>${marker.name}</b>`);
+  });
+</script>
+</body>
+</html>
