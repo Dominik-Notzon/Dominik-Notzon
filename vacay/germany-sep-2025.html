@@ -187,6 +187,118 @@
             font-style: italic;
         }
 
+        .flight-details {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .flight-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #fff;
+        }
+
+        .flight-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .flight-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .flight-card.return {
+            opacity: 0.7;
+        }
+
+        .flight-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .flight-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .flight-date {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .route {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1.5rem 0;
+        }
+
+        .departure, .arrival {
+            flex: 1;
+            text-align: center;
+        }
+
+        .city {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .time {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4facfe;
+            margin-bottom: 0.3rem;
+        }
+
+        .airport {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            opacity: 0.8;
+        }
+
+        .flight-info {
+            display: flex;
+            justify-content: space-around;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .booking-ref {
+            text-align: center;
+            font-size: 1.1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
         .progress-bar {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 25px;
@@ -218,6 +330,22 @@
             
             .container {
                 padding: 1rem;
+            }
+            
+            .route {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+            
+            .flight-info {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
             }
         }
 
@@ -303,6 +431,64 @@
         <div class="message">
             "การเดินทางที่ดีที่สุดคือการได้เจอกับคนที่ใจรัก 💕"<br>
             <em style="font-size: 0.9rem;">(The best journey is meeting someone you care about)</em>
+        </div>
+
+        <div class="flight-details">
+            <h3 class="flight-title">✈️ Flight Information</h3>
+            <div class="flight-grid">
+                <div class="flight-card">
+                    <div class="flight-header">
+                        <span class="flight-number">TG 922</span>
+                        <span class="flight-date">16 SEP 2025</span>
+                    </div>
+                    <div class="route">
+                        <div class="departure">
+                            <div class="city">Bangkok</div>
+                            <div class="time">12:25</div>
+                            <div class="airport">Suvarnabhumi Intl</div>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="arrival">
+                            <div class="city">Frankfurt</div>
+                            <div class="time">19:00</div>
+                            <div class="airport">Frankfurt Intl T1</div>
+                        </div>
+                    </div>
+                    <div class="flight-info">
+                        <span>Duration: 11h 35m</span>
+                        <span>Seat: 53H</span>
+                        <span>Boeing 777-300ER</span>
+                    </div>
+                </div>
+                
+                <div class="flight-card return">
+                    <div class="flight-header">
+                        <span class="flight-number">TG 923</span>
+                        <span class="flight-date">16 OCT 2025</span>
+                    </div>
+                    <div class="route">
+                        <div class="departure">
+                            <div class="city">Frankfurt</div>
+                            <div class="time">20:40</div>
+                            <div class="airport">Frankfurt Intl T1</div>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="arrival">
+                            <div class="city">Bangkok</div>
+                            <div class="time">12:30+1</div>
+                            <div class="airport">Suvarnabhumi Intl</div>
+                        </div>
+                    </div>
+                    <div class="flight-info">
+                        <span>Duration: 10h 50m</span>
+                        <span>Seat: 37H</span>
+                        <span>Boeing 777-300ER</span>
+                    </div>
+                </div>
+            </div>
+            <div class="booking-ref">
+                <strong>Booking Reference:</strong> DXVRVV
+            </div>
         </div>
 
 
