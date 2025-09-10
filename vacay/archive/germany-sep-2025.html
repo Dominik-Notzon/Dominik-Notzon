@@ -527,9 +527,39 @@
                 // Countdown has ended
                 document.querySelector('.countdown-container').style.display = 'none';
                 document.getElementById('celebration').style.display = 'block';
-                
-                // Confetti effect could be added here
                 document.body.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)';
+                // Konfetti-Effekt starten
+                launchConfetti();
+        // Einfacher Konfetti-Effekt
+        function launchConfetti() {
+            const confettiColors = ['#fff', '#f7b731', '#4facfe', '#00f2fe', '#ff6b6b', '#4ecdc4', '#a55eea', '#fd79a8'];
+            const confettiCount = 120;
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.position = 'fixed';
+                confetti.style.top = '-30px';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.width = '10px';
+                confetti.style.height = '18px';
+                confetti.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                confetti.style.opacity = Math.random() * 0.7 + 0.3;
+                confetti.style.borderRadius = '3px';
+                confetti.style.zIndex = 9999;
+                confetti.style.pointerEvents = 'none';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.transition = 'top 2.5s linear, left 2.5s linear, opacity 2.5s linear';
+                document.body.appendChild(confetti);
+                setTimeout(() => {
+                    confetti.style.top = (80 + Math.random() * 15) + 'vh';
+                    confetti.style.left = (parseFloat(confetti.style.left) + (Math.random() - 0.5) * 30) + 'vw';
+                    confetti.style.opacity = 0;
+                }, 50);
+                setTimeout(() => {
+                    confetti.remove();
+                }, 2700);
+            }
+        }
             }
         }
 
