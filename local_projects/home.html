@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DomiTools - Link Collection</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-color: #ecf0f1;
+            --link-hover: #2980b9;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .profile p {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .link-card {
+            background: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1em;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .link-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .link-card .icon {
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .profile h1 {
+                font-size: 2em;
+            }
+        }
+
+        /* Modern loading animation for links */
+        .link-card::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            bottom: -2px;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        .link-card:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile">
+            <h1>Boomi Toolbox</h1>
+            <p>Collection of Boomi Integration Tools</p>
+        </div>
+        
+        <div class="links">
+            <a href="/ws/rest/datahub_manager/page/home" class="link-card">
+                Home
+                <span class="icon">→</span>
+            </a>
+            <a href="/ws/rest/datahub_manager/page/robp_publisher" class="link-card">
+                RoBP Publisher
+                <span class="icon">→</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoBP Data Hub Manager</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --text-color: #2c3e50;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-color);
+            font-size: 2.2em;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.95em;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: var(--transition);
+            background-color: white;
+        }
+        select:focus, input[type="text"]:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        /* Environment select styling */
+        #environment option[value^="E"] {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        #environment option[value^="K"] {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        #environment option[value^="P"] {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        /* Style for the selected option in the dropdown */
+        #environment.dev-env {
+            color: #155724;
+            border-color: #28a745;
+        }
+        #environment.qa-env {
+            color: #856404;
+            border-color: #ffc107;
+        }
+        #environment.prod-env {
+            color: #721c24;
+            border-color: #dc3545;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        #response {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            display: none;
+            font-weight: 500;
+        }
+        .success {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        .error-message {
+            display: block;
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            margin-top: 25px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RoBP Data Hub Manager</h1>
+        <form id="publisherForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="entityName">Entity Name:</label>
+                    <select id="entityName" required>
+                        <option value="">Select an entity...</option>
+                        <option value="BPARTNER">BPARTNER</option>
+                        <option value="COMPANY_BODY_RELATION">COMPANY_BODY_RELATION</option>
+                        <option value="PERSON">PERSON</option>
+                        <option value="COUNTRY">COUNTRY</option>
+                        <option value="GROUP">GROUP</option>
+                        <option value="CLIENT_CLASSIFICATIONS">CLIENT_CLASSIFICATIONS</option>
+                        <option value="COMPANY">COMPANY</option>
+                        <option value="ROLES_LOCKS">ROLES_LOCKS</option>
+                        <option value="SUGGEST_LOCKS">SUGGEST_LOCKS</option>
+                        <option value="CHATTER_POST">CHATTER_POST</option>
+                        <option value="LEGAL_ENTITY">LEGAL_ENTITY</option>
+                    </select>
+                    <span id="entityNameError" class="error-message" style="display: none;">Entity is required</span>
+                </div>
+                <div class="form-group">
+                    <label for="entityId">Single Entity ID:</label>
+                    <input type="text" id="entityId" placeholder="Enter entity ID">
+                    <span id="entityIdError" class="error-message" style="display: none;">Entity ID is required when not doing a full load</span>
+                </div>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="callbackId">Callback ID:</label>
+                    <input type="text" id="callbackId" placeholder="Enter callback ID" required>
+                    <span id="callbackIdError" class="error-message" style="display: none;">Callback ID is required</span>
+                </div>
+                <div class="form-group">
+                    <label for="environment">Environment:</label>
+                    <select id="environment" required>
+                        <option value="">Select environment...</option>
+                        <option value="E">E (Development)</option>
+                        <option value="E-Molecule">E-Molecule (Development)</option>
+                        <option value="K">K (Quality)</option>
+                        <option value="K-Molecule">K-Molecule (Quality)</option>
+                        <option value="P">P (Production)</option>
+                        <option value="P-Molecule">P-Molecule (Production)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="fullLoad">
+                <label for="fullLoad">Full Load</label>
+            </div>
+            <button type="submit">Start Process</button>
+        </form>
+        <div id="response"></div>
+        <pre id="jsonPreview" style="display: none;"></pre>
+    </div>
+
+    <script>
+        // Function to update environment select styling
+        function updateEnvironmentStyle() {
+            const envSelect = document.getElementById('environment');
+            const selectedValue = envSelect.value;
+            
+            // Remove all classes first
+            envSelect.classList.remove('dev-env', 'qa-env', 'prod-env');
+            
+            // Add appropriate class based on selection
+            if (selectedValue.startsWith('E')) {
+                envSelect.classList.add('dev-env');
+            } else if (selectedValue.startsWith('K')) {
+                envSelect.classList.add('qa-env');
+            } else if (selectedValue.startsWith('P')) {
+                envSelect.classList.add('prod-env');
+            }
+        }
+
+        // Add change event listener to environment select
+        document.getElementById('environment').addEventListener('change', updateEnvironmentStyle);
+
+        // Function to validate form
+        function validateForm() {
+            let isValid = true;
+            const fullLoad = document.getElementById('fullLoad').checked;
+            
+            // Entity Name validation (always required)
+            const entityName = document.getElementById('entityName').value;
+            const entityNameError = document.getElementById('entityNameError');
+            if (!entityName) {
+                entityNameError.style.display = 'block';
+                isValid = false;
+            } else {
+                entityNameError.style.display = 'none';
+            }
+            
+            // Entity ID validation (required only when not full load)
+            const entityId = document.getElementById('entityId').value;
+            const entityIdError = document.getElementById('entityIdError');
+            if (!fullLoad && !entityId) {
+                entityIdError.style.display = 'block';
+                isValid = false;
+            } else {
+                entityIdError.style.display = 'none';
+            }
+            
+            // Callback ID validation (always required)
+            const callbackId = document.getElementById('callbackId').value;
+            const callbackIdError = document.getElementById('callbackIdError');
+            if (!callbackId) {
+                callbackIdError.style.display = 'block';
+                isValid = false;
+            } else {
+                callbackIdError.style.display = 'none';
+            }
+            
+            return isValid;
+        }
+
+        // Function to update entity ID field requirement
+        function updateEntityIdRequirement() {
+            const fullLoad = document.getElementById('fullLoad').checked;
+            const entityId = document.getElementById('entityId');
+            const entityIdError = document.getElementById('entityIdError');
+            
+            if (!fullLoad) {
+                entityId.setAttribute('required', '');
+            } else {
+                entityId.removeAttribute('required');
+                entityIdError.style.display = 'none';
+            }
+        }
+
+        // Add change event listener to full load checkbox
+        document.getElementById('fullLoad').addEventListener('change', updateEntityIdRequirement);
+
+        document.getElementById('publisherForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+            
+            const jsonPayload = {
+                dynamicProperties: [
+                    {
+                        name: "DPP_ROBPDH_PUBLISH_ENTITY_NAME",
+                        value: document.getElementById('entityName').value
+                    },
+                    {
+                        name: "DPP_ROBPDH_SINGLE_ENTITY_ID",
+                        value: document.getElementById('entityId').value
+                    },
+                    {
+                        name: "DPP_ROBPDH_PUBLISHER_FULL_LOAD",
+                        value: document.getElementById('fullLoad').checked ? "Y" : "N"
+                    }
+                ],
+                environment: document.getElementById('environment').value,
+                processId: "bca33300-5ed1-42d0-87f1-8290fe5d4d7d"
+            };
+
+            const callbackId = document.getElementById('callbackId').value;
+            if (callbackId) {
+                jsonPayload.dynamicProperties.push({
+                    name: "DPP_ROBPDH_CALLBACK_ID",
+                    value: callbackId
+                });
+            }
+
+            // Display the JSON preview
+            const jsonPreview = document.getElementById('jsonPreview');
+            jsonPreview.textContent = JSON.stringify(jsonPayload, null, 2);
+            jsonPreview.style.display = 'block';
+
+            // Placeholder for the actual API call
+            // In a real implementation, you would replace this with your actual API endpoint
+            fetch('YOUR_API_ENDPOINT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonPayload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                showResponse('Process started successfully!', 'success');
+            })
+            .catch(error => {
+                showResponse('Error starting process: ' + error.message, 'error');
+            });
+        });
+
+        function showResponse(message, type) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = message;
+            responseDiv.className = type;
+            responseDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
