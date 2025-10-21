@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure DevOps - ServiceNow Task Check</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --text-color: #2c3e50;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+            --nav-height: 48px;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(var(--nav-height) + 40px) 20px 40px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-bar a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .home-icon {
+            font-size: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-color);
+            font-size: 2.2em;
+        }
+
+        .description {
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.95em;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: var(--transition);
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        button[type="submit"] {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            width: 100%;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button[type="submit"]:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        button[type="submit"]:not(:disabled):hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .error-message {
+            color: var(--accent-color);
+            font-size: 0.875em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #response {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            display: none;
+            font-weight: 500;
+        }
+
+        .success {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+
+        .history-section {
+            margin-top: 40px;
+            border-top: 2px solid var(--secondary-color);
+            padding-top: 20px;
+        }
+
+        .history-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .history-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-item {
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item-info {
+            flex: 1;
+        }
+
+        .history-item-username {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1em;
+        }
+
+        .history-item-timestamp {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .history-button {
+            background-color: transparent;
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .history-button:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .history-item {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .history-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <a href="/ws/rest/datahub_manager/page/home" title="Home">
+            <span class="home-icon">⌂</span>
+        </a>
+    </nav>
+    <div class="container">
+        <h1>Azure DevOps - ServiceNow Task Check</h1>
+        <p class="description">
+            Check if your Azure DevOps work items match their corresponding ServiceNow changes. 
+            Enter your username to receive a comparison report via email.
+        </p>
+        
+        <form id="checkForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter your username" required>
+                <span class="error-message" id="usernameError">Username is required</span>
+            </div>
+
+            <div class="form-group">
+                <label for="apiKey">API Key:</label>
+                <input type="password" id="apiKey" placeholder="Enter API Key" required>
+                <span class="error-message" id="apiKeyError">API Key is required</span>
+            </div>
+
+            <button type="submit">Send Check Request</button>
+        </form>
+
+        <div class="spinner" id="loadingSpinner"></div>
+        <div id="response"></div>
+
+        <div class="history-section">
+            <h2>Request History</h2>
+            <div id="historyContainer" class="history-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // Load saved API Key on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedApiKey = localStorage.getItem('boomiApiKey');
+            if (savedApiKey) {
+                document.getElementById('apiKey').value = savedApiKey;
+            }
+            updateHistoryDisplay();
+        });
+
+        // Form submission
+        document.getElementById('checkForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            const username = document.getElementById('username').value;
+            
+            // Prepare the request payload
+            const jsonPayload = {
+                processId: "fd02ec16-53db-4563-a231-5d7f99590699",
+                environment: "P-Molecule",
+                dynamicProperties: [{
+                    name: "DPP_AzureDevops_Single_User_Mismatch_Check",
+                    value: username
+                }]
+            };
+
+            // Save to history
+            saveRequestToHistory({
+                username: username,
+                timestamp: new Date().toISOString()
+            });
+
+            // Show loading state
+            const submitButton = document.querySelector('button[type="submit"]');
+            const spinner = document.getElementById('loadingSpinner');
+            
+            submitButton.disabled = true;
+            spinner.style.display = 'block';
+            document.getElementById('response').style.display = 'none';
+
+            // Save API Key
+            const apiKey = document.getElementById('apiKey').value;
+            localStorage.setItem('boomiApiKey', apiKey);
+
+            // Make API call
+            fetch('http://boomi-webservices-cluster.hannover-re.grp:9090/ws/rest/easapi/process/execute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey,
+                    'Authorization': 'Basic ' + btoa('Developer:Developer')
+                },
+                body: JSON.stringify(jsonPayload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                submitButton.disabled = false;
+                spinner.style.display = 'none';
+                
+                let executionId = '';
+                if (data.Resultset && 
+                    data.Resultset[0] && 
+                    data.Resultset[0].executionId) {
+                    executionId = data.Resultset[0].executionId;
+                }
+
+                const message = 'Check request sent successfully! You will receive the comparison report via email.';
+                const executionLink = executionId ? 
+                    `<br><br><a href="https://platform.boomi.com/AtomSphere.html#reporting;accountId=hannoverrckse-S4QY6A;executionId=${executionId}" 
+                    target="_blank" style="color: #155724; text-decoration: none; font-weight: 600;">
+                    View Execution in Boomi <span style="font-size: 0.9em;">↗</span></a>` : '';
+                showResponse(message + executionLink, 'success');
+            })
+            .catch(error => {
+                submitButton.disabled = false;
+                spinner.style.display = 'none';
+                showResponse('Error sending check request: ' + error.message, 'error');
+            });
+        });
+
+        function validateForm() {
+            let isValid = true;
+
+            // Username validation
+            if (!document.getElementById('username').value) {
+                document.getElementById('usernameError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('usernameError').style.display = 'none';
+            }
+
+            // API Key validation
+            if (!document.getElementById('apiKey').value) {
+                document.getElementById('apiKeyError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('apiKeyError').style.display = 'none';
+            }
+
+            return isValid;
+        }
+
+        function saveRequestToHistory(requestData) {
+            let history = JSON.parse(localStorage.getItem('taskCheckHistory') || '[]');
+            history.unshift(requestData);
+            history = history.slice(0, 10); // Keep only last 10 entries
+            localStorage.setItem('taskCheckHistory', JSON.stringify(history));
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const historyContainer = document.getElementById('historyContainer');
+            const history = JSON.parse(localStorage.getItem('taskCheckHistory') || '[]');
+            
+            historyContainer.innerHTML = history.map((item, index) => {
+                const date = new Date(item.timestamp);
+                const formattedDate = date.getDate().toString().padStart(2, '0') + '.' +
+                    (date.getMonth() + 1).toString().padStart(2, '0') + '.' +
+                    date.getFullYear() + ' ' +
+                    date.getHours().toString().padStart(2, '0') + ':' +
+                    date.getMinutes().toString().padStart(2, '0') + ':' +
+                    date.getSeconds().toString().padStart(2, '0');
+
+                return `
+                    <div class="history-item">
+                        <div class="history-item-info">
+                            <div class="history-item-username">${item.username}</div>
+                            <div class="history-item-timestamp">${formattedDate}</div>
+                        </div>
+                        <button class="history-button" onclick="loadFromHistory(${index})">Load Username</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadFromHistory(index) {
+            const history = JSON.parse(localStorage.getItem('taskCheckHistory') || '[]');
+            const item = history[index];
+            
+            if (!item) return;
+            
+            document.getElementById('username').value = item.username;
+        }
+
+        function showResponse(message, type) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = message;
+            responseDiv.className = type;
+            responseDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
