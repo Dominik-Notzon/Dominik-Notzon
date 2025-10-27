@@ -70,10 +70,61 @@
 
         h1 {
             color: var(--primary-color);
-            margin-bottom: 30px;
-            padding-bottom: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
             border-bottom: 2px solid var(--secondary-color);
             font-size: 2.2em;
+        }
+
+        /* compact form row with API key + checkbox side-by-side */
+        .form-row {
+            display: grid;
+            grid-template-columns: minmax(260px, 420px) auto;
+            gap: 16px;
+            align-items: end;
+            margin-bottom: 10px;
+        }
+
+        .api-key-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.95em;
+        }
+
+        .api-key-section input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: var(--transition);
+            background-color: white;
+        }
+
+        .api-key-section input[type="password"]:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .error-message {
+            display: none;
+            color: var(--accent-color);
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
+
+        .checkbox-inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 4px; /* aligns with input baseline */
+            color: var(--primary-color);
+            font-weight: 600;
+            user-select: none;
         }
 
         .process-table {
@@ -121,17 +172,9 @@
         }
 
         /* Environment specific styles */
-        .env-development .process-table th {
-            background-color: var(--success-color);
-        }
-
-        .env-production .process-table th {
-            background-color: var(--error-color);
-        }
-
-        .env-testing .process-table th {
-            background-color: var(--warning-color);
-        }
+        .env-development .process-table th { background-color: var(--success-color); }
+        .env-production  .process-table th { background-color: var(--error-color); }
+        .env-testing     .process-table th { background-color: var(--warning-color); }
 
         .status-badge {
             display: inline-block;
@@ -141,29 +184,18 @@
             font-weight: 600;
         }
 
-        .status-listening {
-            background-color: #d4edda;
-            color: #155724;
-        }
+        .status-listening { background-color: #d4edda; color: #155724; }
+        .status-stopped { background-color: #f8d7da; color: #721c24; }
+        .status-scheduled { background-color: #d4edda; color: #155724; }
+        .status-not-scheduled { background-color: #f8d7da; color: #721c24; }
+        .status-no-listener, .status-no-schedule { background-color: #e9ecef; color: #6c757d; }
 
-        .status-stopped {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        .status-scheduled {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .status-not-scheduled {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        .status-no-listener, .status-no-schedule {
-            background-color: #e9ecef;
-            color: #6c757d;
+        /* Extra line inside scheduled badge for time & days */
+        .status-scheduled .schedule-time {
+            display: block;
+            font-size: 0.8em;
+            margin-top: 2px;
+            opacity: 0.9;
         }
 
         .schedule-details {
@@ -183,17 +215,11 @@
             font-size: 1em;
             font-weight: 600;
             transition: var(--transition);
-            margin-bottom: 20px;
+            margin: 8px 0 16px 0; /* under the form row */
         }
 
-        .refresh-button:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-        }
-
-        .refresh-button:active {
-            transform: translateY(0);
-        }
+        .refresh-button:hover { background-color: #2980b9; transform: translateY(-2px); }
+        .refresh-button:active { transform: translateY(0); }
 
         .spinner {
             display: none;
@@ -205,10 +231,8 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }
         }
 
         .last-update {
@@ -216,43 +240,6 @@
             color: #666;
             font-size: 0.9em;
             margin-top: 10px;
-        }
-
-        .api-key-section {
-            margin-bottom: 20px;
-        }
-
-        .api-key-section label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-color);
-            font-size: 0.95em;
-        }
-
-        .api-key-section input[type="password"] {
-            width: 100%;
-            max-width: 400px;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: var(--border-radius);
-            box-sizing: border-box;
-            font-size: 1em;
-            transition: var(--transition);
-            background-color: white;
-        }
-
-        .api-key-section input[type="password"]:focus {
-            border-color: var(--secondary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-
-        .error-message {
-            display: none;
-            color: var(--accent-color);
-            font-size: 0.875em;
-            margin-top: 5px;
         }
     </style>
 </head>
@@ -265,14 +252,24 @@
 
     <div class="container">
         <h1>Boomi Process Monitor</h1>
-        <div class="api-key-section">
-            <label for="apiKey">API Key:</label>
-            <input type="password" id="apiKey" placeholder="Enter API Key" required>
-            <span class="error-message" id="apiKeyError">API Key is required</span>
+
+        <!-- API Key + Checkbox in one row -->
+        <div class="form-row">
+            <div class="api-key-section">
+                <label for="apiKey">API Key:</label>
+                <input type="password" id="apiKey" placeholder="Enter API Key" required>
+                <span class="error-message" id="apiKeyError">API Key is required</span>
+            </div>
+
+            <label class="checkbox-inline" title="Wenn deaktiviert, werden alle Environments ausgeblendet, die nicht mit E, K oder P beginnen.">
+                <input type="checkbox" id="poolToggle" checked>
+                <span>Pool-Environments</span>
+            </label>
         </div>
-        <button class="refresh-button" onclick="refreshAllStatuses()">
-            Refresh All Statuses
-        </button>
+
+        <!-- Button under the two form elements -->
+        <button class="refresh-button" onclick="refreshAllStatuses()">Refresh All Statuses</button>
+
         <div class="spinner" id="loadingSpinner"></div>
         <div id="environmentTables"></div>
         <div class="last-update" id="lastUpdate"></div>
@@ -282,7 +279,10 @@
         // Array of process IDs to monitor
         const processes = [
             "515e222d-9844-417a-806f-f9bc8ae4db86",
-            "d81a1ac8-f090-40de-b621-b20aed42dab0"
+            "d81a1ac8-f090-40de-b621-b20aed42dab0",
+            "34c22336-b477-409b-8e12-09553f84f23b",
+	    "0e82cd0a-c30d-41b4-befe-3aa475d4d195",
+            "a3741e56-ab3e-430a-ae44-50de3876f0ef"
         ];
 
         // Base URL for the API
@@ -325,12 +325,8 @@
 
             // Collect all environments from both listeners and schedules
             const envSet = new Set();
-            listeners.forEach(listener => {
-                if (listener.environment) envSet.add(listener.environment);
-            });
-            schedules.forEach(schedule => {
-                if (schedule.environment) envSet.add(schedule.environment);
-            });
+            listeners.forEach(listener => { if (listener.environment) envSet.add(listener.environment); });
+            schedules.forEach(schedule => { if (schedule.environment) envSet.add(schedule.environment); });
 
             // Initialize environment data for all found environments
             Array.from(envSet).forEach(env => {
@@ -338,7 +334,7 @@
                     processName: metadata.name || 'Unknown Process',
                     listenerStatus: 'no-listener',
                     listenerText: '-',
-                    scheduleStatus: 'not scheduled',
+                    scheduleStatus: 'not-scheduled',
                     scheduleDetails: null
                 };
             });
@@ -367,7 +363,7 @@
                         environments[env].scheduleText = '-';
                         environments[env].scheduleDetails = null;
                     } else {
-                        environments[env].scheduleStatus = 'not scheduled';
+                        environments[env].scheduleStatus = 'not-scheduled';
                         environments[env].scheduleText = 'not scheduled';
                         environments[env].scheduleDetails = null;
                     }
@@ -387,32 +383,25 @@
             // Collect all environments from all processes
             const allEnvs = new Set();
             statusDataArray.forEach(processData => {
-                if (processData) {
-                    Object.keys(processData).forEach(env => allEnvs.add(env));
-                }
+                if (processData) Object.keys(processData).forEach(env => allEnvs.add(env));
             });
 
-            // Sort environments by type (E*, P*, others) and then alphabetically
+            // Sort environments by type and name
             const sortedEnvs = Array.from(allEnvs).sort((a, b) => {
-                const aType = a.startsWith('E') ? 0 : a.startsWith('P') ? 2 : 1;
-                const bType = b.startsWith('E') ? 0 : b.startsWith('P') ? 2 : 1;
-                if (aType !== bType) return aType - bType;
+                const rank = (env) => env.startsWith('E') ? 0 : env.startsWith('P') ? 2 : 1;
+                const ra = rank(a), rb = rank(b);
+                if (ra !== rb) return ra - rb;
                 return a.localeCompare(b);
             });
 
             // Initialize environment groups
-            sortedEnvs.forEach(env => {
-                envGrouped[env] = [];
-            });
+            sortedEnvs.forEach(env => { envGrouped[env] = []; });
 
             // Group processes by environment
             statusDataArray.forEach(processData => {
                 if (!processData) return;
-                
                 Object.entries(processData).forEach(([env, data]) => {
-                    if (envGrouped[env]) {
-                        envGrouped[env].push(data);
-                    }
+                    if (envGrouped[env]) envGrouped[env].push(data);
                 });
             });
 
@@ -423,6 +412,7 @@
                     const envSection = document.createElement('div');
                     const envInfo = getEnvironmentInfo(env);
                     envSection.className = `environment-section ${envInfo.class}`;
+                    envSection.dataset.env = env; // for filtering
 
                     const envTitle = document.createElement('h2');
                     envTitle.className = 'environment-title';
@@ -451,7 +441,11 @@
                                     </td>
                                     <td>
                                         <span class="status-badge status-${process.scheduleStatus.replace(' ', '-')}">
-                                            ${process.scheduleStatus}${process.scheduleDetails ? ` (${process.scheduleDetails})` : ''}
+                                            ${process.scheduleStatus === 'scheduled' ? 'scheduled' : (process.scheduleText || process.scheduleStatus)}
+                                            ${process.scheduleStatus === 'scheduled' && process.scheduleDetails
+                                                ? `<span class="schedule-time">${process.scheduleDetails}</span>`
+                                                : ''
+                                            }
                                         </span>
                                     </td>
                                 </tr>
@@ -466,13 +460,23 @@
 
             document.getElementById('lastUpdate').textContent = 
                 `Last updated: ${new Date().toLocaleString()}`;
+
+            // Apply current filter state after (re)render
+            applyEnvFilter();
         }
 
+        function pad2(n) { return String(n).padStart(2, '0'); }
+
         function formatSchedule(schedule) {
-            let description = '';
-            
-            if (schedule.hours && schedule.minutes) {
-                description += `${schedule.hours}:${schedule.minutes}`;
+            let parts = [];
+
+            const hasHours = schedule.hours !== undefined && schedule.hours !== null;
+            const hasMinutes = schedule.minutes !== undefined && schedule.minutes !== null;
+
+            if (hasHours || hasMinutes) {
+                const hh = hasHours ? pad2(schedule.hours) : '00';
+                const mm = hasMinutes ? pad2(schedule.minutes) : '00';
+                parts.push(`${hh}:${mm}`);
             }
 
             if (schedule.daysOfWeek) {
@@ -480,34 +484,36 @@
                     '1': 'Mon', '2': 'Tue', '3': 'Wed', '4': 'Thu',
                     '5': 'Fri', '6': 'Sat', '7': 'Sun'
                 };
-                
-                const days = schedule.daysOfWeek.split(',')
-                    .map(day => daysMap[day] || day)
+                const days = String(schedule.daysOfWeek)
+                    .split(',')
+                    .map(day => daysMap[day.trim()] || day.trim())
                     .join(', ');
-                    
-                description += ` on ${days}`;
+                parts.push(`on ${days}`);
             }
 
-            return description || 'Custom Schedule';
+            return parts.length ? parts.join(' ') : 'Custom Schedule';
         }
 
+        // Headings stay as originally: E = Development, P = Production, everything else = Testing
         function getEnvironmentInfo(env) {
             if (env.startsWith('E')) {
-                return {
-                    name: `Development (${env})`,
-                    class: 'env-development'
-                };
+                return { name: `Development (${env})`, class: 'env-development' };
             } else if (env.startsWith('P')) {
-                return {
-                    name: `Production (${env})`,
-                    class: 'env-production'
-                };
+                return { name: `Production (${env})`, class: 'env-production' };
             } else {
-                return {
-                    name: `Testing (${env})`,
-                    class: 'env-testing'
-                };
-            };
+                return { name: `Testing (${env})`, class: 'env-testing' };
+            }
+        }
+
+        function applyEnvFilter() {
+            const showAll = document.getElementById('poolToggle').checked;
+            const sections = document.querySelectorAll('.environment-section');
+            sections.forEach(sec => {
+                const env = (sec.dataset.env || '').toUpperCase();
+                const isCore = env.startsWith('E') || env.startsWith('K') || env.startsWith('P');
+                // When checked: show all; when unchecked: only show E/K/P
+                sec.style.display = (showAll || isCore) ? '' : 'none';
+            });
         }
 
         async function refreshAllStatuses() {
@@ -525,19 +531,17 @@
                 updateStatusTable(processedDataArray);
             } catch (error) {
                 console.error('Error refreshing statuses:', error);
-                // Could add error handling UI here
             } finally {
                 spinner.style.display = 'none';
             }
         }
 
-        // Load saved API Key and set up initial state
+        // Initial setup
         document.addEventListener('DOMContentLoaded', function() {
-            // Load saved API Key
             const savedApiKey = localStorage.getItem('boomiApiKey');
-            if (savedApiKey) {
-                document.getElementById('apiKey').value = savedApiKey;
-            }
+            if (savedApiKey) document.getElementById('apiKey').value = savedApiKey;
+
+            document.getElementById('poolToggle').addEventListener('change', applyEnvFilter);
 
             // Initial status refresh
             refreshAllStatuses();
