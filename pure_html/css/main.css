@@ -1,0 +1,90 @@
+body {
+    box-sizing: border-box;
+}
+
+.gradient-bg {
+    background: linear-gradient(135deg, var(--primary-color, #1e40af) 0%, var(--secondary-color, #3b82f6) 100%);
+}
+
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.skill-bar {
+    height: 8px;
+    background-color: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-color, #10b981) 0%, var(--secondary-accent, #059669) 100%);
+    border-radius: 4px;
+    transition: width 2s ease-in-out;
+}
+
+.nav-link {
+    color: var(--text-color, #374151);
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-color, #10b981);
+}
+
+@view-transition { navigation: auto; }
+
+/* Moved from inline styles in index.html */
+#nav-name {
+    color: var(--primary-color, #1e40af);
+}
+
+.bg-surface {
+    background-color: var(--surface-color, #f9fafb);
+}
+
+.bg-accent {
+    background-color: var(--accent-color, #10b981);
+}
+
+.bg-primary {
+    background-color: var(--primary-color, #1e40af);
+}
+
+.text-body {
+    color: var(--text-color, #374151);
+}
+
+.text-dim-70 {
+    color: var(--text-color, #374151);
+    opacity: 0.7;
+}
+
+.text-dim-80 {
+    color: var(--text-color, #374151);
+    opacity: 0.8;
+}
+
+.text-accent {
+    color: var(--accent-color, #10b981);
+}
+
+.accent-bar {
+    background-color: var(--accent-color, #10b981);
+}
+
+.card-surface {
+    background-color: var(--surface-color, #f9fafb);
+    border-color: #e5e7eb;
+}
+
+.chip {
+    background-color: var(--accent-color, #10b981);
+    color: #ffffff;
+}
