@@ -190,38 +190,50 @@
       color: #e0f2fe;
     }
 
-    .hero-card-grid {
-      display: grid;
-      grid-template-columns: 1.3fr 1.2fr;
-      gap: 10px;
-      font-size: 14px;
+    .hero-timeline {
+      position: relative;
+      padding: 8px 0;
+      margin-top: 12px;
     }
 
-    .hero-chip-col {
+    .hero-timeline-item {
+      position: relative;
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .mini-chip {
-      padding: 6px 9px;
-      border-radius: var(--radius-full);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.9);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       gap: 12px;
+      margin-bottom: 14px;
+      align-items: flex-start;
     }
 
-    .mini-chip span:first-child {
-      font-size: 13px;
-      color: #e5e7eb;
+    .hero-timeline-dot {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.25);
+      margin-top: 2px;
+      flex-shrink: 0;
+      z-index: 1;
     }
 
-    .mini-chip span:last-child {
-      font-size: 13px;
+    .hero-timeline-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero-timeline-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #a5f3fc;
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+
+    .hero-timeline-text {
+      font-size: 14px;
       color: var(--muted);
+      line-height: 1.4;
     }
 
     .timeline-badge {
@@ -476,28 +488,38 @@
           <div class="hero-card-highlight">
             27. Dez: Unna → Trier · 28. Dez: Trier → Luxemburg · 29. Dez: Flexibel · 30. Dez: Rückfahrt.
           </div>
-          <div class="hero-card-grid">
-            <div class="hero-chip-col">
-              <div class="mini-chip">
-                <span>Tag 1</span>
-                <span>Anreise & Trier-Altstadt</span>
-              </div>
-              <div class="mini-chip">
-                <span>Tag 2</span>
-                <span>Luxemburg-Stadt entdecken</span>
+
+          <div class="hero-timeline">
+            <div class="hero-timeline-item">
+              <div class="hero-timeline-dot"></div>
+              <div class="hero-timeline-content">
+                <div class="hero-timeline-label">27. Dez · Tag 1</div>
+                <div class="hero-timeline-text">Anreise & Trier-Altstadt</div>
               </div>
             </div>
-            <div class="hero-chip-col">
-              <div class="mini-chip">
-                <span>Tag 3</span>
-                <span>Entscheidung: Luxemburg oder Belgien</span>
+            <div class="hero-timeline-item">
+              <div class="hero-timeline-dot"></div>
+              <div class="hero-timeline-content">
+                <div class="hero-timeline-label">28. Dez · Tag 2</div>
+                <div class="hero-timeline-text">Luxemburg-Stadt entdecken</div>
               </div>
-              <div class="mini-chip">
-                <span>Tag 4</span>
-                <span>Rückfahrt nach Unna</span>
+            </div>
+            <div class="hero-timeline-item">
+              <div class="hero-timeline-dot"></div>
+              <div class="hero-timeline-content">
+                <div class="hero-timeline-label">29. Dez · Tag 3</div>
+                <div class="hero-timeline-text">Entscheidung: Luxemburg oder Belgien</div>
+              </div>
+            </div>
+            <div class="hero-timeline-item">
+              <div class="hero-timeline-dot"></div>
+              <div class="hero-timeline-content">
+                <div class="hero-timeline-label">30. Dez · Tag 4</div>
+                <div class="hero-timeline-text">Rückfahrt nach Unna</div>
               </div>
             </div>
           </div>
+
         </aside>
       </header>
 
