@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trier Guide – Kurztrip in die älteste Stadt Deutschlands</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.2);
+      --radius-lg: 18px;
+      --radius-full: 999px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.8);
+      --shadow-chip: 0 10px 25px rgba(15, 23, 42, 0.85);
+      --transition-fast: 150ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 50%, #000 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px 48px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .hero {
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.96),
+        rgba(17, 24, 39, 0.98)
+      );
+      border-radius: 24px;
+      padding: 28px 24px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(15, 118, 110, 0.16);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      color: #a5f3fc;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.2);
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 3.2vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin: 0 0 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-bottom: 18px;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: var(--radius-full);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 12px;
+      color: #cbd5f5;
+      box-shadow: var(--shadow-chip);
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta span::before {
+      content: "•";
+      opacity: 0.6;
+    }
+
+    .hero-meta span:first-child::before {
+      content: "";
+      margin: 0;
+    }
+
+    .hero-note {
+      font-size: 12px;
+      color: #9ca3af;
+      opacity: 0.85;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 18px 16px 16px;
+      background: radial-gradient(circle at top left, #0f172a, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .hero-card-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .hero-card-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1.2fr;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .hero-card-highlight {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: #e0f2fe;
+    }
+
+    .hero-chip-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mini-chip {
+      padding: 6px 9px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mini-chip span:first-child {
+      font-size: 11px;
+      color: #e5e7eb;
+    }
+
+    .mini-chip span:last-child {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .sights-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 9px;
+      border-radius: var(--radius-full);
+      background: rgba(30, 64, 175, 0.35);
+      border: 1px solid rgba(129, 140, 248, 0.8);
+      font-size: 11px;
+      color: #bfdbfe;
+      position: absolute;
+      right: 14px;
+      top: 13px;
+    }
+
+    .sights-badge-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 6px;
+      background: radial-gradient(circle at 30% 20%, #facc15, #ea580c);
+    }
+
+    main {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    section {
+      margin-bottom: 18px;
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .card h3 {
+      margin: 16px 0 6px;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 6px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 8px 0 4px 18px;
+      padding: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    li + li {
+      margin-top: 4px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #cbd5f5;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .sight-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .sight-item {
+      padding: 10px 11px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .sight-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .sight-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .restaurants-list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .restaurant-item {
+      padding: 10px 11px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .restaurant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .restaurant-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .restaurant-type {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .restaurant-address {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 11px;
+      color: #6b7280;
+      text-align: right;
+    }
+
+    a {
+      color: #7dd3fc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <!-- HERO -->
+      <header class="hero">
+        <div>
+          <div class="hero-badge">
+            <div class="hero-badge-dot"></div>
+            Kurztrip Guide · Trier
+          </div>
+          <h1 class="hero-title">
+            Trier – Römerstadt, Moselwein & UNESCO-Welterbe
+          </h1>
+          <p class="hero-subtitle">
+            Ein kompakter Überblick für deinen Besuch in Deutschlands ältester Stadt:
+            wichtigste Fakten, Must-Sehenswürdigkeiten, praktische Reisetipps und
+            Restaurant-Empfehlungen – perfekt für 1–2 Tage vor Ort.
+          </p>
+
+          <div class="hero-pills">
+            <div class="pill">
+              <span class="pill-dot"></span>
+              Älteste Stadt Deutschlands
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              Römerbauten & UNESCO-Welterbe
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              Kompakte, fußläufige Altstadt
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              Perfekt kombinierbar mit Luxemburg
+            </div>
+          </div>
+
+          <div class="hero-meta">
+            <span>Region: Mosel · Rheinland-Pfalz</span>
+            <span>Ideal: 1–2 Tage Aufenthalt</span>
+            <span>Fokus: Geschichte, Architektur, entspannter Stadtbummel</span>
+          </div>
+          <div class="hero-note">
+            Tipp: Plane die Outdoor-Spots im Winter eher tagsüber ein, es wird früh dunkel.
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <div class="sights-badge">
+            <div class="sights-badge-icon"></div>
+            5× Must-See
+          </div>
+          <div class="hero-card-title">Kurz auf einen Blick</div>
+          <div class="hero-card-highlight">
+            Römermetropole, Moselwein & UNESCO-Spots – alles in einer kompakten,
+            gut zu Fuß erkundbaren Innenstadt.
+          </div>
+          <div class="hero-card-grid">
+            <div class="hero-chip-col">
+              <div class="mini-chip">
+                <span>Gründung</span>
+                <span>Römische Stadt Augusta Treverorum</span>
+              </div>
+              <div class="mini-chip">
+                <span>Key-Spots</span>
+                <span>Porta Nigra, Dom, Kaiserthermen</span>
+              </div>
+              <div class="mini-chip">
+                <span>Charakter</span>
+                <span>Historisch, entspannt, kompakt</span>
+              </div>
+            </div>
+            <div class="hero-chip-col">
+              <div class="mini-chip">
+                <span>Ticket-Tipp</span>
+                <span>AntikenCard für Römerbauten</span>
+              </div>
+              <div class="mini-chip">
+                <span>Abends</span>
+                <span>Moselwein, Viez, Altstadt-Bars</span>
+              </div>
+              <div class="mini-chip">
+                <span>Ausflüge</span>
+                <span>Luxemburg & Moseltal</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </header>
+
+      <main>
+        <!-- LEFT COLUMN -->
+        <div>
+          <!-- 10 FACTS -->
+          <section class="card">
+            <h2>10 kurze Infos über Trier</h2>
+            <p>Ein schneller Überblick, damit du Stadt & Geschichte einordnen kannst:</p>
+            <ul>
+              <li>Trier gilt als älteste Stadt Deutschlands und wurde von den Römern gegründet.</li>
+              <li>Der ursprüngliche Name lautete <em>Augusta Treverorum</em> – Stadt des Kaisers Augustus.</li>
+              <li>Die Stadt liegt im Moseltal, umgeben von Weinbergen und nahe der Grenze zu Luxemburg.</li>
+              <li>In der Spätantike war Trier Residenzstadt römischer Kaiser und Verwaltungszentrum des Nordwestens des Reichs.</li>
+              <li>Mehrere römische Bauten gehören heute zum UNESCO-Welterbe.</li>
+              <li>Die Porta Nigra ist das Wahrzeichen der Stadt und eines der besterhaltenen Stadttore nördlich der Alpen.</li>
+              <li>Der Trierer Dom St. Peter ist die älteste Bischofskirche Deutschlands.</li>
+              <li>Die Stadt ist bekannt für Moselwein und Viez (Apfelwein).</li>
+              <li>Die Altstadt ist kompakt, fußläufig und voller historischer Gebäude, Cafés und kleiner Läden.</li>
+              <li>Trier eignet sich perfekt als Ausgangspunkt für Trips nach Luxemburg und entlang der Mosel.</li>
+            </ul>
+          </section>
+
+          <!-- SIGHTS -->
+          <section class="card">
+            <h2>5 Must-Sehenswürdigkeiten</h2>
+            <p>Diese fünf Spots solltest du bei einem Kurztrip auf jeden Fall einplanen:</p>
+
+            <div class="sight-grid">
+              <div class="sight-item">
+                <div class="sight-title">1. Porta Nigra</div>
+                <div class="sight-meta">Römisches Stadttor · Wahrzeichen</div>
+                <p>
+                  Massives, dunkles Stadttor aus römischer Zeit. Du kannst innen über mehrere Ebenen
+                  laufen und oben auf die Altstadt blicken – idealer Startpunkt für deine Tour.
+                </p>
+              </div>
+
+              <div class="sight-item">
+                <div class="sight-title">2. Trierer Dom St. Peter</div>
+                <div class="sight-meta">Dom & UNESCO-Welterbe</div>
+                <p>
+                  Älteste Bischofskirche Deutschlands mit eindrucksvoller Mischung aus Romanik,
+                  Gotik und Barock. Innen sehr eindrucksvoll und ein ruhiger Kontrast zur Altstadt.
+                </p>
+              </div>
+
+              <div class="sight-item">
+                <div class="sight-title">3. Kaiserthermen</div>
+                <div class="sight-meta">Römische Thermenanlage</div>
+                <p>
+                  Monumentale Ruinen einer antiken Badeanlage. Hier bekommst du ein Gefühl dafür,
+                  wie luxuriös das römische Leben in Trier einmal war.
+                </p>
+              </div>
+
+              <div class="sight-item">
+                <div class="sight-title">4. Römisches Amphitheater</div>
+                <div class="sight-meta">Spiele & Shows in der Antike</div>
+                <p>
+                  Etwas außerhalb der Altstadt gelegen, aber gut erreichbar. Stell dir vor, wie hier
+                  tausende Menschen bei Spielen und Vorführungen zugeschaut haben.
+                </p>
+              </div>
+
+              <div class="sight-item">
+                <div class="sight-title">5. Römerbrücke</div>
+                <div class="sight-meta">Brücke über die Mosel</div>
+                <p>
+                  Eine der ältesten noch genutzten Brücken nördlich der Alpen. Perfekt für einen
+                  kleinen Spaziergang zur Mosel, besonders bei Sonnenuntergang.
+                </p>
+              </div>
+            </div>
+
+            <div class="tag-row">
+              <div class="tag">Römergeschichte</div>
+              <div class="tag">UNESCO-Welterbe</div>
+              <div class="tag">Altstadt-Bummel</div>
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div>
+          <!-- TRAVEL TIPS 
+          <section class="card">
+            <h2>Travel-Tipps für Trier</h2>
+
+            <h3>Anreise & Lage</h3>
+            <ul>
+              <li>Gut erreichbar mit dem Zug (z. B. über Koblenz, Saarbrücken oder Luxemburg).</li>
+              <li>Mit dem Auto über A1 / A602; Parkhäuser liegen nahe an der Altstadt.</li>
+            </ul>
+
+            <h3>In der Stadt unterwegs</h3>
+            <ul>
+              <li>Die wichtigsten Sehenswürdigkeiten liegen alle fußläufig in der Innenstadt.</li>
+              <li>Bequeme Schuhe lohnen sich – du wirst viel auf Kopfsteinpflaster unterwegs sein.</li>
+            </ul>
+
+            <h3>Tickets & Eintritte</h3>
+            <ul>
+              <li>
+                Für die Römerbauten lohnt sich die
+                <strong>AntikenCard</strong> (Kombi-Ticket für mehrere Monumente
+                + Museum).
+              </li>
+              <li>Plane pro Haupt-Spot grob 30–60 Minuten ein, wenn du wirklich schauen willst.</li>
+            </ul>
+
+            <h3>Erwartung & Stimmung</h3>
+            <ul>
+              <li>Fokus auf Geschichte, Architektur & entspannten Altstadt-Vibe, nicht auf Großstadt-Party.</li>
+              <li>Ideal, wenn du Kultur magst und gern zu Fuß Städte erkundest.</li>
+            </ul>
+
+            <h3>Jahreszeit & Wetter</h3>
+            <ul>
+              <li>Im Winter wird es früh dunkel – Outdoor-Spots besser tagsüber einplanen.</li>
+              <li>Viele Highlights (Dom, Innenbereiche, Museen) sind wetterunabhängig gut machbar.</li>
+            </ul>
+
+            <h3>Geld & Sprache</h3>
+            <ul>
+              <li>Kartenzahlung ist in Restaurants und Läden üblich.</li>
+              <li>Deutsch reicht völlig; Englisch wird touristisch meistens verstanden.</li>
+            </ul>
+          </section>
+            -->
+          <!-- RESTAURANTS -->
+          <section class="card">
+            <h2>Restaurant-Tipps in Trier</h2>
+            <p>Für den Abend nach dem Sightseeing:</p>
+
+            <div class="restaurants-list">
+              <div class="restaurant-item">
+                <div class="restaurant-header">
+                  <div>
+                    <div class="restaurant-name">Burger House</div>
+                    <div class="restaurant-type">Burger · Modern & locker</div>
+                  </div>
+                </div>
+                <div class="restaurant-address">
+                  Palaststraße&nbsp;28–34, 54290 Trier
+                </div>
+                <p>
+                  Sehr beliebter Burger-Spot mit hausgemachten Patties, eigenen Buns und
+                  kreativen Kombinationen. Perfekt, wenn du nach einem langen Tag einfach
+                  richtig gute Burger willst.
+                </p>
+              </div>
+
+              <div class="restaurant-item">
+                <div class="restaurant-header">
+                  <div>
+                    <div class="restaurant-name">Ristorante Pizzeria Hotel Frankenturm</div>
+                    <div class="restaurant-type">Italienisch · Pizza & Pasta</div>
+                  </div>
+                </div>
+                <div class="restaurant-address">
+                  Altstadt-Lage beim historischen Frankenturm, Nähe Hauptmarkt / Porta Nigra
+                </div>
+                <p>
+                  Klassische italienische Küche in einem historischen Gebäude. Ideal, wenn du
+                  Lust auf Pizza, Pasta & mediterranes Feeling mitten in der Altstadt hast.
+                </p>
+              </div>
+
+              <div class="restaurant-item">
+                <div class="restaurant-header">
+                  <div>
+                    <div class="restaurant-name">Restaurant Delphi</div>
+                    <div class="restaurant-type">Griechisch · Familienfreundlich</div>
+                  </div>
+                </div>
+                <div class="restaurant-address">
+                  Roonstraße&nbsp;8, 54292 Trier
+                </div>
+                <p>
+                  Griechisches Restaurant mit klassischer Küche, warmem Ambiente und
+                  typischer Gastfreundschaft – Gyros, Souvlaki & Co. in entspanntem Setting.
+                </p>
+              </div>
+            </div>
+
+            <div class="tag-row">
+              <div class="tag">Burger</div>
+              <div class="tag">Italienisch</div>
+              <div class="tag">Griechisch</div>
+              <div class="tag">Abendessen nach dem Sightseeing</div>
+            </div>
+          </section>
+
+          <div class="footer-note">
+            Tipp: Für beliebte Spots an Wochenenden und rund um Feiertage vorher reservieren.
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
