@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reiseübersicht – Unna · Trier · Luxemburg · Belgien</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.2);
+      --radius-lg: 18px;
+      --radius-full: 999px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.8);
+      --shadow-chip: 0 10px 25px rgba(15, 23, 42, 0.85);
+      --transition-fast: 150ms ease-out;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 50%, #000 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px 48px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .hero {
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.96),
+        rgba(17, 24, 39, 0.98)
+      );
+      border-radius: 24px;
+      padding: 28px 24px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(15, 118, 110, 0.16);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      color: #a5f3fc;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.2);
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 3.2vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin: 0 0 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-bottom: 18px;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: var(--radius-full);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 12px;
+      color: #cbd5f5;
+      box-shadow: var(--shadow-chip);
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta span::before {
+      content: "•";
+      opacity: 0.6;
+    }
+
+    .hero-meta span:first-child::before {
+      content: "";
+      margin: 0;
+    }
+
+    .hero-note {
+      font-size: 12px;
+      color: #9ca3af;
+      opacity: 0.85;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 18px 16px 16px;
+      background: radial-gradient(circle at top left, #0f172a, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .hero-card-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .hero-card-highlight {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: #e0f2fe;
+    }
+
+    .hero-card-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1.2fr;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .hero-chip-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mini-chip {
+      padding: 6px 9px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mini-chip span:first-child {
+      font-size: 11px;
+      color: #e5e7eb;
+    }
+
+    .mini-chip span:last-child {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .timeline-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 9px;
+      border-radius: var(--radius-full);
+      background: rgba(30, 64, 175, 0.35);
+      border: 1px solid rgba(129, 140, 248, 0.8);
+      font-size: 11px;
+      color: #bfdbfe;
+      position: absolute;
+      right: 14px;
+      top: 13px;
+    }
+
+    .timeline-badge-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 6px;
+      background: radial-gradient(circle at 30% 20%, #facc15, #ea580c);
+    }
+
+    main {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    section {
+      margin-bottom: 18px;
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      margin: 6px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .timeline {
+      position: relative;
+      margin-top: 6px;
+      padding-left: 14px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 5px;
+      bottom: 5px;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(148, 163, 184, 0.6), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-left: 14px;
+      margin-bottom: 14px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -1px;
+      top: 4px;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.25);
+    }
+
+    .timeline-date {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #9ca3af;
+      margin-bottom: 2px;
+    }
+
+    .timeline-main {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .timeline-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .timeline-links {
+      font-size: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: var(--radius-full);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 11px;
+    }
+
+    .pill-link span {
+      font-size: 11px;
+    }
+
+    .options-card h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .option-item {
+      padding: 10px 11px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 13px;
+    }
+
+    .option-title {
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #cbd5f5;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 11px;
+      color: #6b7280;
+      text-align: right;
+    }
+
+    a {
+      color: #7dd3fc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <!-- HERO -->
+      <header class="hero">
+        <div>
+          <div class="hero-badge">
+            <div class="hero-badge-dot"></div>
+            Reiseübersicht · Dezember-Trip
+          </div>
+          <h1 class="hero-title">
+            Unna → Trier → Luxemburg → Belgien
+          </h1>
+          <p class="hero-subtitle">
+            Kompakte Übersicht über euren Kurztrip: wann ihr wo seid, welche Stationen geplant sind
+            und wohin die Detail-Guides verlinken. Perfekt, um unterwegs schnell den Überblick zu behalten.
+          </p>
+
+          <div class="hero-pills">
+            <div class="pill">
+              <span class="pill-dot"></span>
+              Start: Unna gegen 11:00 Uhr
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              1. Stopp: Trier (1 Nacht)
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              2. Stopp: Luxemburg-Stadt (mind. 1 Nacht)
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              Flexibel: Extra-Nacht Luxemburg oder Belgien
+            </div>
+          </div>
+
+          <div class="hero-meta">
+            <span>Roadtrip in 3–4 Tagen</span>
+            <span>Städtefokus & entspanntes Reisen</span>
+            <span>Guides verlinkt für Trier & Luxemburg</span>
+          </div>
+          <div class="hero-note">
+            Tipp: Diese Seite als Startseite nutzen und von hier in die Detail-Guides für Trier
+            und Luxemburg springen.
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <div class="timeline-badge">
+            <div class="timeline-badge-icon"></div>
+            Zeitleiste
+          </div>
+          <div class="hero-card-title">Reisetage im Überblick</div>
+          <div class="hero-card-highlight">
+            27. Dez: Unna → Trier · 28. Dez: Trier → Luxemburg · 29. Dez: Flexibel · 30. Dez: Rückfahrt.
+          </div>
+          <div class="hero-card-grid">
+            <div class="hero-chip-col">
+              <div class="mini-chip">
+                <span>Tag 1</span>
+                <span>Anreise & Trier-Altstadt</span>
+              </div>
+              <div class="mini-chip">
+                <span>Tag 2</span>
+                <span>Luxemburg-Stadt entdecken</span>
+              </div>
+            </div>
+            <div class="hero-chip-col">
+              <div class="mini-chip">
+                <span>Tag 3</span>
+                <span>Entscheidung: Luxemburg oder Belgien</span>
+              </div>
+              <div class="mini-chip">
+                <span>Tag 4</span>
+                <span>Rückfahrt nach Unna</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </header>
+
+      <main>
+        <!-- LEFT COLUMN: TIMELINE -->
+        <div>
+          <section class="card">
+            <h2>Zeitleiste des Trips</h2>
+            <p>So ist der Ablauf geplant – Uhrzeiten sind ca.-Angaben, damit ihr flexibel bleiben könnt.</p>
+
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">27. Dezember · Tag 1</div>
+                <div class="timeline-main">Start in Unna → Trier</div>
+                <div class="timeline-meta">
+                  Gegen 11:00 Uhr Abfahrt von Unna. Ankunft in Trier am Nachmittag, Check-in im Hotel,
+                  danach Altstadt & erste Eindrücke.
+                </div>
+                <div class="timeline-links">
+                  <a href="/travel/trier.html" class="pill-link">
+                    <span>→ Trier-Guide öffnen</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">28. Dezember · Tag 2</div>
+                <div class="timeline-main">Trier → Luxemburg-Stadt</div>
+                <div class="timeline-meta">
+                  Vormittags oder Mittag Abfahrt nach Luxemburg-Stadt. Nach Check-in: Altstadt,
+                  Corniche, eventuell Casemates du Bock.
+                </div>
+                <div class="timeline-links">
+                  <a href="/travel/luxemburg.html" class="pill-link">
+                    <span>→ Luxemburg-Guide öffnen</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">29. Dezember · Tag 3</div>
+                <div class="timeline-main">Flex-Tag: Luxemburg oder Belgien</div>
+                <div class="timeline-meta">
+                  Morgens entscheiden: Entweder noch eine weitere Nacht in Luxemburg-Stadt bleiben
+                  oder weiter nach Belgien fahren und dort einen entspannten Tag verbringen.
+                </div>
+                <div class="timeline-links">
+                  <span class="pill-link">
+                    <span>Option A: Noch ein Tag Luxemburg</span>
+                  </span>
+                  <span class="pill-link">
+                    <span>Option B: Weiterfahrt nach Belgien</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">30. Dezember · Tag 4</div>
+                <div class="timeline-main">Rückfahrt nach Unna</div>
+                <div class="timeline-meta">
+                  Rückfahrt entweder von Luxemburg oder von eurem Belgien-Stopp zurück nach Unna.
+                  Je nach Lust & Laune eher vormittags oder nachmittags losfahren.
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN: OPTIONS & NOTES -->
+        <div>
+          <section class="card options-card">
+            <h2>Flex-Tag am 29. Dezember</h2>
+            <h3>Deine Optionen im Überblick</h3>
+            <div class="options-grid">
+              <div class="option-item">
+                <div class="option-title">Option A – Luxemburg-Stadt verlängern</div>
+                <p>
+                  Noch eine Nacht in Luxemburg-Stadt bleiben: mehr Zeit für Casemates du Bock,
+                  EU-Viertel, Grund bei Nacht oder ein entspanntes Dinner.
+                </p>
+              </div>
+              <div class="option-item">
+                <div class="option-title">Option B – Belgien-Stopp einbauen</div>
+                <p>
+                  Weiterfahrt nach Belgien (z.&nbsp;B. Lüttich, Namur oder eine andere Stadt).
+                  Ideal, wenn ihr noch ein weiteres Land „mitnehmen“ und einen Tag dort chillen wollt.
+                </p>
+              </div>
+            </div>
+
+            <div class="tag-row">
+              <div class="tag">Flexibel planbar</div>
+              <div class="tag">Spontane Entscheidung vor Ort</div>
+              <div class="tag">3 oder 4 Übernachtungen möglich</div>
+            </div>
+          </section>
+
+          <section class="card">
+            <h2>Links zu den Detail-Guides</h2>
+            <p>Von hier kommst du direkt zu den ausführlichen Seiten mit Sehenswürdigkeiten und Restaurant-Tipps:</p>
+            <div class="tag-row">
+              <a href="travel/trier.html" class="tag">/travel/trier.html</a>
+              <a href="travel/luxemburg.html" class="tag">/travel/luxemburg.html</a>
+            </div>
+            <p style="margin-top:10px;">
+              Am besten diese Übersicht im Browser als Favorit speichern – unterwegs hast du damit
+              deine Struktur + direkten Zugriff auf beide Stadt-Guides.
+            </p>
+          </section>
+
+          <div class="footer-note">
+            Hinweis: Uhrzeiten sind bewusst grob gehalten, damit ihr spontan anhalten, essen
+            oder umplanen könnt.
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

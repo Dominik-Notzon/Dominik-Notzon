@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Luxemburg-Stadt Guide – Altstadt, Festungen & EU-Flair</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.2);
+      --radius-lg: 18px;
+      --radius-full: 999px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.8);
+      --shadow-chip: 0 10px 25px rgba(15, 23, 42, 0.85);
+      --transition-fast: 150ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 50%, #000 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 32px 16px 48px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .hero {
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.96),
+        rgba(17, 24, 39, 0.98)
+      );
+      border-radius: 24px;
+      padding: 28px 24px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(15, 118, 110, 0.16);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      color: #a5f3fc;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.2);
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 3.2vw, 36px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      margin: 0 0 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-bottom: 18px;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: var(--radius-full);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 12px;
+      color: #cbd5f5;
+      box-shadow: var(--shadow-chip);
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta span::before {
+      content: "•";
+      opacity: 0.6;
+    }
+
+    .hero-meta span:first-child::before {
+      content: "";
+      margin: 0;
+    }
+
+    .hero-note {
+      font-size: 12px;
+      color: #9ca3af;
+      opacity: 0.85;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 20px;
+      padding: 18px 16px 16px;
+      background: radial-gradient(circle at top left, #0f172a, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .hero-card-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .hero-card-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1.2fr;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .hero-card-highlight {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: #e0f2fe;
+    }
+
+    .hero-chip-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mini-chip {
+      padding: 6px 9px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mini-chip span:first-child {
+      font-size: 11px;
+      color: #e5e7eb;
+    }
+
+    .mini-chip span:last-child {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .sights-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 9px;
+      border-radius: var(--radius-full);
+      background: rgba(30, 64, 175, 0.35);
+      border: 1px solid rgba(129, 140, 248, 0.8);
+      font-size: 11px;
+      color: #bfdbfe;
+      position: absolute;
+      right: 14px;
+      top: 13px;
+    }
+
+    .sights-badge-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 6px;
+      background: radial-gradient(circle at 30% 20%, #facc15, #ea580c);
+    }
+
+    main {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    section {
+      margin-bottom: 18px;
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .card h3 {
+      margin: 16px 0 6px;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 6px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 8px 0 4px 18px;
+      padding: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    li + li {
+      margin-top: 4px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #cbd5f5;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .sight-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .sight-item {
+      padding: 10px 11px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .sight-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .sight-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .restaurants-list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .restaurant-item {
+      padding: 10px 11px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .restaurant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .restaurant-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .restaurant-type {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .restaurant-address {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 11px;
+      color: #6b7280;
+      text-align: right;
+    }
+
+    a {
+      color: #7dd3fc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <!-- HERO -->
+      <header class="hero">
+        <div>
+          <div class="hero-badge">
+            <div class="hero-badge-dot"></div>
+            Kurztrip Guide · Luxemburg-Stadt
+          </div>
+          <h1 class="hero-title">
+            Luxemburg-Stadt – Altstadt, Festungen & EU-Flair
+          </h1>
+          <p class="hero-subtitle">
+            Ein kompakter Überblick für deinen Besuch in Luxemburgs Hauptstadt:
+            wichtigste Fakten, Must-Sehenswürdigkeiten, praktische Reisetipps und
+            Restaurant-Empfehlungen – perfekt für 1–2 Tage vor Ort, z.&nbsp;B. nach Trier.
+          </p>
+
+          <div class="hero-pills">
+            <div class="pill">
+              <span class="pill-dot"></span>
+              UNESCO-Altstadt & Festungen
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              Bock-Kasematten & Corniche
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              Kostenloser ÖPNV im ganzen Land
+            </div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              Perfekt kombinierbar mit Trier
+            </div>
+          </div>
+
+          <div class="hero-meta">
+            <span>Hauptstadt des Großherzogtums Luxemburg</span>
+            <span>Ideal: 1–2 Tage Aufenthalt</span>
+            <span>Fokus: Altstadt, Ausblicke, EU-Viertel</span>
+          </div>
+          <div class="hero-note">
+            Tipp: Nutze den kostenlosen ÖPNV für Fahrten zwischen Altstadt, Grund und EU-Viertel.
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <div class="sights-badge">
+            <div class="sights-badge-icon"></div>
+            5× Must-See
+          </div>
+          <div class="hero-card-title">Kurz auf einen Blick</div>
+          <div class="hero-card-highlight">
+            Felsenstadt mit tiefen Schluchten, alten Festungen und moderner EU-Architektur – kompakt,
+            aber extrem vielseitig.
+          </div>
+          <div class="hero-card-grid">
+            <div class="hero-chip-col">
+              <div class="mini-chip">
+                <span>Gründung</span>
+                <span>963 auf dem Bockfelsen</span>
+              </div>
+              <div class="mini-chip">
+                <span>UNESCO-Status</span>
+                <span>Altstadt & Festungen seit 1994</span>
+              </div>
+              <div class="mini-chip">
+                <span>Sprachen</span>
+                <span>Luxemburgisch, Deutsch, Französisch</span>
+              </div>
+            </div>
+            <div class="hero-chip-col">
+              <div class="mini-chip">
+                <span>ÖPNV</span>
+                <span>Bus, Tram & Zug gratis</span>
+              </div>
+              <div class="mini-chip">
+                <span>Top-Spots</span>
+                <span>Bock-Kasematten, Corniche, Grund</span>
+              </div>
+              <div class="mini-chip">
+                <span>Charakter</span>
+                <span>Historisch, international, entspannt</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </header>
+
+      <main>
+        <!-- LEFT COLUMN -->
+        <div>
+          <!-- 10 FACTS -->
+          <section class="card">
+            <h2>10 kurze Infos über Luxemburg-Stadt</h2>
+            <p>Damit du die Stadt schnell einordnen kannst:</p>
+            <ul>
+              <li>Luxemburg-Stadt ist die Hauptstadt des Großherzogtums Luxemburg.</li>
+              <li>Die Stadt liegt spektakulär auf einem Felsenplateau über den Flüssen Alzette und Pétrusse.</li>
+              <li>Die Altstadt und ihre Festungen sind UNESCO-Welterbe und werden oft als „Gibraltar des Nordens“ bezeichnet.</li>
+              <li>Der Ursprung geht auf eine Burggründung von Graf Siegfried im Jahr 963 auf dem Bockfelsen zurück.</li>
+              <li>Die Bock-Kasematten sind ein Netz aus unterirdischen Verteidigungstunneln, das sich über viele Kilometer erstreckt.</li>
+              <li>Mit Chemin de la Corniche hast du eine der schönsten Aussichtspromenaden Europas mit Blick auf den Stadtteil Grund.</li>
+              <li>Luxemburg-Stadt ist Sitz wichtiger EU-Institutionen, z.&nbsp;B. Europäischer Gerichtshof und Europäischer Rechnungshof.</li>
+              <li>Im Land sind Busse, Trams und Züge (2. Klasse, national) für alle kostenlos – auch für Touristen.</li>
+              <li>Die Stadt ist kompakt und gut zu Fuß erkundbar, hat aber durch Ober- und Unterstadt einige Höhenmeter.</li>
+              <li>Die Bevölkerung ist stark international geprägt, Mehrsprachigkeit (LU/DE/FR/EN) ist Alltag.</li>
+            </ul>
+          </section>
+
+          <!-- SIGHTS -->
+          <section class="card">
+            <h2>5 Must-Sehenswürdigkeiten</h2>
+            <p>Diese Spots solltest du auf jeden Fall einplanen:</p>
+
+            <div class="sight-grid">
+              <div class="sight-item">
+                <div class="sight-title">1. Casemates du Bock</div>
+                <div class="sight-meta">Unterirdische Festungsanlagen</div>
+                <p>
+                  Ein riesiges Tunnelsystem im Felsen unter der Altstadt. Du läufst durch Gänge,
+                  in denen früher Kanonen, Truppen und Vorräte untergebracht waren – der beste
+                  Ort, um zu verstehen, warum Luxemburg „Gibraltar des Nordens“ genannt wurde.
+                </p>
+              </div>
+
+              <div class="sight-item">
+                <div class="sight-title">2. Chemin de la Corniche</div>
+                <div class="sight-meta">Aussichtspromenade über dem Grund</div>
+                <p>
+                  Ein Spazierweg entlang der Stadtmauer mit spektakulärem Blick auf den
+                  Stadtteil Grund und die Flusstäler. Perfekt für Fotos und ein Gefühl für
+                  die besondere Topografie der Stadt.
+                </p>
+              </div>
+
+              <div class="sight-item">
+                <div class="sight-title">3. Palais Grand-Ducal</div>
+                <div class="sight-meta">Residenz des Großherzogs</div>
+                <p>
+                  Im Herzen der Oberstadt gelegen. Von außen beeindruckende Renaissance-Fassade,
+                  im Sommer teilweise mit Führungen. Selbst nur von außen ein schöner Fixpunkt
+                  bei deinem Rundgang.
+                </p>
+              </div>
+
+              <div class="sight-item">
+                <div class="sight-title">4. Cathédrale Notre-Dame</div>
+                <div class="sight-meta">Kathedrale der Stadt</div>
+                <p>
+                  Mischung aus Spätgotik und Renaissance mit eindrucksvollen Fenstern und
+                  Krypta. Schöner Ort, um kurz zur Ruhe zu kommen – direkt bei der Place de la Constitution.
+                </p>
+              </div>
+
+              <div class="sight-item">
+                <div class="sight-title">5. Altstadt & Stadtteil Grund</div>
+                <div class="sight-meta">Oberstadt & Unterstadt</div>
+                <p>
+                  Oben: enge Gassen, Plätze und Regierungsgebäude. Unten im Grund:
+                  Fluss, Brücken und alte Häuser direkt am Wasser. Der Kontrast macht
+                  den Charme der Stadt aus – am besten per Aufzug oder zu Fuß kombinieren.
+                </p>
+              </div>
+            </div>
+
+            <div class="tag-row">
+              <div class="tag">UNESCO-Welterbe</div>
+              <div class="tag">Festungen & Kasematten</div>
+              <div class="tag">Altstadt-Spaziergang</div>
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div>
+          <!-- TRAVEL TIPS -->
+          <section class="card">
+            <h2>Travel-Tipps für Luxemburg-Stadt</h2>
+
+
+            <h3>In der Stadt unterwegs</h3>
+            <ul>
+              <li>ÖPNV (Bus, Tram, Zug, 2. Klasse) ist landesweit kostenlos – einfach einsteigen und fahren.</li>
+              <li>Die Altstadt ist sehr fußläufig, aber durch Ober- und Unterstadt recht „stöckelig“ – bequeme Schuhe lohnen sich.</li>
+              <li>Es gibt Aufzüge zwischen Oberstadt und Grund, die dir einige Höhenmeter ersparen.</li>
+            </ul>
+
+            <h3>Jahreszeit & Wetter</h3>
+            <ul>
+              <li>Im Winter: früh dunkel, also Bock-Kasematten und Corniche am besten tagsüber einplanen.</li>
+              <li>Bei Regen kannst du gut auf Kathedrale, Museen und Cafés ausweichen.</li>
+            </ul>
+
+            <h3>Geld & Sprache</h3>
+            <ul>
+              <li>Währung ist der Euro; Kartenzahlung ist Standard.</li>
+              <li>Mit Deutsch kommst du meist gut zurecht, viele sprechen zusätzlich Französisch und Englisch.</li>
+            </ul>
+          </section>
+
+          <!-- RESTAURANTS -->
+          <section class="card">
+            <h2>Restaurant-Tipps in Luxemburg-Stadt</h2>
+            <p>Für deinen Abend nach dem Stadtbummel:</p>
+
+            <div class="restaurants-list">
+              <div class="restaurant-item">
+                <div class="restaurant-header">
+                  <div>
+                    <div class="restaurant-name">Munchies Burger</div>
+                    <div class="restaurant-type">Burger · Smash Burgers & Shakes</div>
+                  </div>
+                </div>
+                <div class="restaurant-address">
+                  12 Rue Chimay, L-1333 Luxemburg-Stadt
+                </div>
+                <p>
+                  Moderner Burgerladen im Zentrum mit Smash Burgers, loaded Fries und Milkshakes.
+                  Perfekt, wenn du nach einem Tag in der Stadt einfach Bock auf richtig gute Burger hast.
+                </p>
+              </div>
+
+              <div class="restaurant-item">
+                <div class="restaurant-header">
+                  <div>
+                    <div class="restaurant-name">Restaurant Mosconi</div>
+                    <div class="restaurant-type">Italienisch · Michelin-Stern · Fine Dining</div>
+                  </div>
+                </div>
+                <div class="restaurant-address">
+                  13 Rue Münster, L-2160 Luxemburg-Stadt (Grund)
+                </div>
+                <p>
+                  Hochklassiges italienisches Fine Dining im Stadtteil Grund direkt an der Alzette.
+                  Fokus auf mehrgängige Menüs und hochwertige italienische Zutaten – ideal für einen
+                  besonderen Abend.
+                </p>
+              </div>
+
+              <div class="restaurant-item">
+                <div class="restaurant-header">
+                  <div>
+                    <div class="restaurant-name">Ambrosia</div>
+                    <div class="restaurant-type">Griechisch · Warm & gemütlich</div>
+                  </div>
+                </div>
+                <div class="restaurant-address">
+                  10 Rue Notre-Dame, L-2240 Luxemburg-Stadt
+                </div>
+                <p>
+                  Authentische griechische Küche mitten in der Oberstadt, unweit von Kathedrale
+                  und Palais Grand-Ducal. Herzhaftes Essen, entspannte Atmosphäre – ideal nach
+                  einem Abendspaziergang durch die Altstadt.
+                </p>
+              </div>
+            </div>
+
+            <div class="tag-row">
+              <div class="tag">Burger</div>
+              <div class="tag">Italienisch</div>
+              <div class="tag">Griechisch</div>
+              <div class="tag">Abendessen nach dem Sightseeing</div>
+            </div>
+          </section>
+
+          <div class="footer-note">
+            Tipp: Für Mosconi und beliebte Spots am Wochenende vorab reservieren.
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
